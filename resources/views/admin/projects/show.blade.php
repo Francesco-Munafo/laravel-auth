@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container">
+    <div class="container py-5">
         <div class="row row-cols-2">
             <div class="col">
                 <h3>Title: {{ $project->title }}</h3>

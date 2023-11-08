@@ -1,8 +1,10 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card">
-        <div class="card-body">
+    <div class="card my-5">
+
+        <a class="btn btn-primary ms-auto me-3 my-3" href="{{ route('admin.projects.create') }}">Add a new project</a>
+        <div class="card-body p-0">
 
             <div class="table-responsive-sm">
                 <table
@@ -16,7 +18,6 @@
                         <tr>
                             <th>ID</th>
                             <th>TITLE</th>
-                            <th>SLUG</th>
                             <th>DESCRIPTION</th>
                             <th>IMAGE</th>
                             <th>DATE</th>
@@ -30,7 +31,6 @@
                             <tr class="table-primary">
                                 <td scope="row">{{ $project->id }}</td>
                                 <td>{{ $project->title }}</td>
-                                <td>{{ $project->slug }}</td>
                                 <td>{{ $project->description }}</td>
                                 <td>
                                     @if (asset($project->image))
@@ -82,7 +82,8 @@
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Dismiss</button>
 
-                                                    <form action="" method="POST">
+                                                    <form action="{{ route('admin.projects.destroy', $project->id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
 
