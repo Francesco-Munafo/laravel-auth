@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Project;
 
 class DashboardController extends Controller
 {
@@ -11,6 +12,6 @@ class DashboardController extends Controller
     public function index()
     {
 
-        return view('admin.dashboard');
+        return view('admin.dashboard', ['projects' => Project::all()]);
     }
 }
