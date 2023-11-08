@@ -80,7 +80,7 @@ class ProjectController extends Controller
             $newImage = $request->image;
             $file_path = Storage::put('placeholders', $newImage);
             if (!is_null($project->image) && Storage::fileExists($project->image)) {
-                Storage::delete($project->thumb);
+                Storage::delete($project->image);
             }
 
             $val_data['image'] = $file_path;
@@ -88,7 +88,7 @@ class ProjectController extends Controller
 
         $project->update($val_data);
 
-        return to_route('projects.show', $project);
+        return to_route('admin.projects.show', $project);
     }
 
     /**

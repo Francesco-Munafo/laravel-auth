@@ -6,7 +6,7 @@
             <div class="col">
                 <h3>Title: {{ $project->title }}</h3>
                 <h3>Description:</h3>
-                <p>{{ $project->description }}</p>
+                <p class="text-break">{{ $project->description }}</p>
 
             </div>
             <div class="col">
