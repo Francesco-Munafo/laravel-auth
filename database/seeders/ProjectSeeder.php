@@ -25,6 +25,8 @@ class ProjectSeeder extends Seeder
             $project->slug = Str::slug($project->title, '-');
             $project->description = $faker->realText();
             $project->image = 'https://picsum.photos/id/' . $randNumber . '/200/300';
+            $project->git_link = $faker->url();
+            $project->external_link = $faker->url();
             $project->publication_date = $faker->dateTimeBetween('-5 months', '+1 month');
             $project->project_type = $faker->company();
             $project->save();
