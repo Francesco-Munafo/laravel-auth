@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('publication_date')->nullable();
             $table->string('project_type', 50)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

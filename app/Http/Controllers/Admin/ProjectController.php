@@ -100,12 +100,34 @@ class ProjectController extends Controller
         return to_route('admin.projects.show', $project);
     }
 
+    public function softDelete(Project $project)
+    {
+    }
+
+    public function trashed()
+    {
+        $trashed = Project::onlyTrashed()->paginate(5);
+        return view('admin.projects.deleted', compact('trashed'));
+    }
+
+    public function restoreTrashed($slug)
+    {
+
+        $project = Project::withTrashed()->where('slug', '=', $slug)->first();
+
+        $project->restore();
+
+        return to_route('admin.trash')->with('message', 'Project restored successfully!');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy($slug)
     {
+        $project = Project::withTrashed()->where('slug', '=', $slug)->first();
+
         $project->delete();
-        return to_route('admin.dashboard');
+        return to_route('admin.projects.index');
     }
 }
