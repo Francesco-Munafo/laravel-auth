@@ -18,8 +18,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
-        return view('admin.dashboard', compact('projects'));
+        $projects = Project::paginate(5);
+
+        return view('admin.projects.index', compact('projects'));
     }
 
     /**
@@ -50,7 +51,7 @@ class ProjectController extends Controller
         $project->project_type = $val_data['project_type'];
         $project->save();
 
-        return to_route('admin.dashboard');
+        return to_route('admin.project.index');
     }
 
     /**
@@ -85,6 +86,14 @@ class ProjectController extends Controller
 
             $val_data['image'] = $file_path;
         }
+
+        if (!Str::is($project->getOriginal('title'), $request->title)) {
+
+            $val_data['slug'] = $project->generateSlug($request->title);
+        }
+
+
+
 
         $project->update($val_data);
 

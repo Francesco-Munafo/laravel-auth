@@ -8,6 +8,7 @@ use Faker\Generator as Faker;
 use App\Models\Project;
 use Illuminate\Support\Str;
 
+
 class ProjectSeeder extends Seeder
 {
     /**
@@ -15,12 +16,15 @@ class ProjectSeeder extends Seeder
      */
     public function run(Faker $faker): void
     {
+
+
         for ($i = 0; $i < 10; $i++) {
+            $randNumber = random_int(1, 500);
             $project = new Project();
             $project->title = $faker->realText(50);
             $project->slug = Str::slug($project->title, '-');
             $project->description = $faker->realText();
-            $project->image = 'placeholders/' . $faker->image('public/storage/placeholders', 640, 480, fullPath: false);
+            $project->image = 'https://picsum.photos/id/' . $randNumber . '/200/300';
             $project->publication_date = $faker->dateTimeBetween('-5 months', '+1 month');
             $project->project_type = $faker->company();
             $project->save();
