@@ -1,12 +1,17 @@
 @extends('layouts.admin')
 
 @section('content')
+    @if (session('message'))
+        <div class="alert alert-success mt-4" role="alert">
+            {{ session('message') }}
+        </div>
+    @endif
     <div class="card my-5">
 
         <div class="card-body p-0">
 
             <div class="table-responsive-sm">
-                <table class="table table-striped table-hover table-borderless table-secondary align-middle">
+                <table class="table table-striped table-hover table-borderless table-dark align-middle text-center">
                     <thead class="table-light">
                         <caption>Trashed projects table</caption>
                         <tr>
@@ -28,10 +33,12 @@
                                 <td>{{ $trashed_project->title }}</td>
                                 <td class="w-50">{{ $trashed_project->description }}</td>
                                 <td>
-                                    @if (asset($trashed_project->image))
-                                        <img height="100" src="{{ asset($trashed_project->image) }}" alt="">
+                                    @if (str_contains($trashed_project->image, 'http'))
+                                        <img height="100" src="{{ asset($trashed_project->image) }}"
+                                            alt="trashed_ preview">
                                     @else
-                                        N/A
+                                        <img height="100" src="{{ asset('storage/' . $trashed_project->image) }}"
+                                            alt="Project preview">
                                     @endif
 
                                 </td>
@@ -59,18 +66,7 @@
 
 
                                 <td>
-                                    <div class="col d-flex justify-content-between">
-
-                                        <a class="btn btn-success"
-                                            href="{{ route('admin.projects.show', $trashed_project) }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                                                <path
-                                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-                                            </svg>
-                                        </a>
+                                    <div class="col d-flex justify-content-evenly">
 
                                         <form action="{{ route('admin.restore', $trashed_project->slug) }}" method="post">
 
@@ -109,7 +105,7 @@
                                                 role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title text-decoration-underline"
+                                                        <h5 class="modal-title"
                                                             id="modalTitleId-{{ $trashed_project->id }}">Deleting your
                                                             project "{{ $trashed_project->title }}"
                                                         </h5>
@@ -119,14 +115,15 @@
                                                     <div class="modal-body">
                                                         Warning! This is an irreversible operation! Doing this you'll delete
                                                         your
-                                                        project.
+                                                        project <span
+                                                            class="text-decoration-underline text-danger">permanently!</span>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Dismiss</button>
 
                                                         <form
-                                                            action="{{ route('admin.projects.destroy', $trashed_project->slug) }}"
+                                                            action="{{ route('admin.forceDelete', $trashed_project->slug) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')

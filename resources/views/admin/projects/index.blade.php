@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
+    @if (session('message'))
+        <div class="alert alert-success mt-4" role="alert">
+            {{ session('message') }}
+        </div>
+    @endif
     <div class="card my-5">
         <div class="d-flex ms-2">
 
@@ -22,7 +27,7 @@
         <div class="card-body p-0">
 
             <div class="table-responsive-sm">
-                <table class="table table-striped table-hover table-borderless table-dark align-middle">
+                <table class="table table-striped table-hover table-borderless table-dark align-middle text-center">
                     <thead class="table-light">
                         <caption>Projects</caption>
                         <tr>
@@ -44,10 +49,11 @@
                                 <td>{{ $project->title }}</td>
                                 <td class="w-50">{{ $project->description }}</td>
                                 <td>
-                                    @if (asset($project->image))
-                                        <img height="100" src="{{ asset($project->image) }}" alt="">
+                                    @if (str_contains($project->image, 'http'))
+                                        <img height="100" src="{{ asset($project->image) }}" alt="Project preview">
                                     @else
-                                        N/A
+                                        <img height="100" src="{{ asset('storage/' . $project->image) }}"
+                                            alt="Project preview">
                                     @endif
 
                                 </td>
@@ -75,7 +81,7 @@
 
 
                                 <td>
-                                    <div class="col d-flex justify-content-between">
+                                    <div class="col d-flex justify-content-evenly">
 
                                         <a class="btn btn-success" href="{{ route('admin.projects.show', $project) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -115,17 +121,15 @@
                                                 role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title text-decoration-underline"
-                                                            id="modalTitleId-{{ $project->id }}">Deleting your
+                                                        <h5 class="modal-title" id="modalTitleId-{{ $project->id }}">
+                                                            Deleting your
                                                             project "{{ $project->title }}"
                                                         </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Warning! This is an irreversible operation! Doing this you'll delete
-                                                        your
-                                                        project.
+                                                        Are you sure that you want to move this project to the trash can?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -137,7 +141,8 @@
                                                             @csrf
                                                             @method('DELETE')
 
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                            <button type="submit" class="btn btn-danger">Move to trash
+                                                                can</button>
 
                                                         </form>
                                                     </div>

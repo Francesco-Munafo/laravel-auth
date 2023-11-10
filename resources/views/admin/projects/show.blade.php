@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
+    @if (session('message'))
+        <div class="alert alert-success mt-4" role="alert">
+            {{ session('message') }}
+        </div>
+    @endif
     <div class="col mt-3">
 
         <a class="btn btn-primary" href="{{ route('admin.projects.index', $project) }}">
@@ -15,7 +20,11 @@
         <div class="row row-cols-2">
 
             <div class="col-3 text-center">
-                <img class="rounded border border-2 border-dark shadow" src="{{ asset($project->image) }}" alt="">
+                @if (str_contains($project->image, 'http'))
+                    <img src="{{ asset($project->image) }}" alt="Project preview">
+                @else
+                    <img src="{{ asset('storage/' . $project->image) }}" alt="Project preview">
+                @endif
             </div>
             <div class="col-6">
                 <h3>Project # {{ $project->id }}</h3>

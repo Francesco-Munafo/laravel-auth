@@ -53,7 +53,7 @@ class ProjectController extends Controller
         $project->project_type = $val_data['project_type'];
         $project->save();
 
-        return to_route('admin.project.index');
+        return to_route('admin.projects.index')->with('message', 'Project created successfully!');
     }
 
     /**
@@ -99,16 +99,14 @@ class ProjectController extends Controller
 
         $project->update($val_data);
 
-        return to_route('admin.projects.show', $project);
+        return to_route('admin.projects.show', $project)->with('message', 'Project updated successfully!');
     }
 
-    public function softDelete(Project $project)
-    {
-    }
 
     public function trashed()
     {
         $trashed = Project::onlyTrashed()->paginate(5);
+
         return view('admin.projects.deleted', compact('trashed'));
     }
 
@@ -127,9 +125,21 @@ class ProjectController extends Controller
      */
     public function destroy($slug)
     {
+
         $project = Project::withTrashed()->where('slug', '=', $slug)->first();
+        //dd($project);
 
         $project->delete();
-        return to_route('admin.projects.index');
+
+        return to_route('admin.projects.index')->with('message', 'Project added to the trash can!');
+    }
+
+    public function forceDelete($slug)
+    {
+        $project = Project::withTrashed()->where('slug', '=', $slug)->first();
+
+        $project->forceDelete();
+
+        return to_route('admin.trash')->with('message', 'Project deleted successfully!');
     }
 }
