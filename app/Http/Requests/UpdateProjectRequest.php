@@ -27,9 +27,9 @@ class UpdateProjectRequest extends FormRequest
             'title' => ['bail', 'required', 'min:5', 'max:50', Rule::unique('projects')->ignore($this->project)],
             'description' => 'bail|nullable|min:50|max:1000',
             'image' => 'bail|nullable|image|max:5000',
-            'git_link' => 'bail|nullable|',
-            'external_link' => 'bail|nullable|unique',
-            'publication_date' => 'bail|nullable|date|unique',
+            'git_link' => ['bail', 'nullable', Rule::unique('projects')->ignore($this->project)],
+            'external_link' => ['bail', 'nullable', Rule::unique('projects')->ignore($this->project)],
+            'publication_date' => 'bail|nullable|date',
             'project_type' => 'bail|nullable|max:50'
         ];
     }

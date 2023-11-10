@@ -47,6 +47,8 @@ class ProjectController extends Controller
         $project->slug = Str::slug($project->title, '-');
         $project->description = $val_data['description'];
         $project->image = $file_path;
+        $project->git_link = $val_data['git_link'];
+        $project->external_link = $val_data['external_link'];
         $project->publication_date = $val_data['publication_date'];
         $project->project_type = $val_data['project_type'];
         $project->save();

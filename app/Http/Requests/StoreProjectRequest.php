@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProjectRequest extends FormRequest
 {
@@ -25,8 +26,8 @@ class StoreProjectRequest extends FormRequest
             'title' => 'bail|required|min:5|max:50',
             'description' => 'bail|nullable|min:50|max:1000',
             'image' => 'bail|nullable|image|max:5000',
-            'git_link' => 'bail|nullable|',
-            'external_link' => 'bail|nullable|unique',
+            'git_link' => ['bail', 'nullable', Rule::unique('projects')],
+            'external_link' => ['bail', 'nullable', Rule::unique('projects')],
             'publication_date' => 'bail|nullable|date',
             'project_type' => 'bail|nullable|max:50'
         ];

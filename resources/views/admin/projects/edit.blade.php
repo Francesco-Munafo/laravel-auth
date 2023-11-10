@@ -28,8 +28,7 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" name="description" id="description" rows="3"
-                    value="{{ old('description', $project->description) }}"></textarea>
+                <textarea class="form-control" name="description" id="description" rows="3">{{ old('description', $project->description) }}</textarea>
             </div>
 
 
@@ -37,6 +36,19 @@
                 <label for="image" class="form-label">Select a file</label>
                 <input type="file" class="form-control" name="image" id="image" placeholder="Select a file"
                     value="{{ $project->image }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="gitLink" class="form-label">Git Hub Project</label>
+                <input type="text" class="form-control" name="git_link" id="git_link" aria-describedby="helpGitlink"
+                    placeholder="Insert a git link for the project" value="{{ old('git_link', $project->git_link) }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="external_link" class="form-label">External link</label>
+                <input type="text" class="form-control" name="external_link" id="external_link"
+                    aria-describedby="helpExternalLink" placeholder="Insert an external link "
+                    value="{{ old('external_link', $project->external_link) }}">
             </div>
 
             <div class="mb-3">
